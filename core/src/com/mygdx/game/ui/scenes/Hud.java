@@ -28,7 +28,6 @@ public class Hud {
     Label scoreLabel;
     Label actualScoreLabel;
     Label levelLabel;
-    Label lifesLabel;
 
     public Hud(SpriteBatch spriteBatch){
         score = 0;

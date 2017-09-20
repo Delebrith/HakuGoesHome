@@ -34,12 +34,13 @@ public class PlayScreen implements Screen {
         orthographicCamera = new OrthographicCamera();
         viewport = new FitViewport(HakuGoesHome.VIRTUAL_WIDTH, HakuGoesHome.VIRTUAL_HEIGHT,
                 orthographicCamera);
-        hud = new Hud(game.batch);
+        viewport.apply();
 
         mapLoader = new TmxMapLoader();
-        tiledMap = mapLoader.load("levels/mapka.tmx");
+        tiledMap = mapLoader.load("level1.tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledMap);
         orthographicCamera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
+        hud = new Hud(game.batch);
     }
 
     public void handleInput(float dt){
@@ -65,12 +66,12 @@ public class PlayScreen implements Screen {
 
         update(delta);
 
-//        Gdx.gl.glClearColor(0, 0, 0, 0);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
 
         renderer.render();
+        hud.stage.draw();
     }
 
     @Override
