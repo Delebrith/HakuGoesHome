@@ -15,7 +15,7 @@ import com.mygdx.game.HakuGoesHome;
  * Created by p.szwed on 9/20/17.
  */
 
-public class Hud {
+public class Frame {
 
     public Stage stage;
     private Viewport viewport;
@@ -29,7 +29,7 @@ public class Hud {
     Label actualScoreLabel;
     Label levelLabel;
 
-    public Hud(SpriteBatch spriteBatch){
+    public Frame(SpriteBatch spriteBatch){
         score = 0;
         lifes = 3;
         level = HakuGoesHome.level;
@@ -46,7 +46,7 @@ public class Hud {
                 new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelLabel = new Label(String.format("%s %03d", "LEVEL: ", level),
                 new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label("SCORE: ",
+        scoreLabel = new Label("SCORE:",
                 new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         actualScoreLabel = new Label(String.format("%06d", score),
                 new Label.LabelStyle(new BitmapFont(), Color.WHITE));
