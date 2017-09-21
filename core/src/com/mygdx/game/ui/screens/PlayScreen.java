@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.HakuGoesHome;
 import com.mygdx.game.sprites.Haku;
 import com.mygdx.game.ui.scenes.Frame;
+import com.mygdx.game.utils.Box2DWorldGenerator;
 
 /**
  * Created by p.szwed on 9/20/17.
@@ -62,26 +63,9 @@ public class PlayScreen implements Screen {
         box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.SHAPE_STATIC.set(0,1,0,1);
 
-        BodyDef bodyDef = new BodyDef();
-        PolygonShape polygonShape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
-        Body body;
+        Box2DWorldGenerator.generate(world, tiledMap);
 
-        for (int i = 2; i < 6; i++) {
-            for (MapObject object : tiledMap.getLayers().get(i).getObjects().getByType(RectangleMapObject.class)) {
-                Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                bodyDef.type = BodyDef.BodyType.StaticBody;
-                bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) /HakuGoesHome.PIXELS_PER_METER,
-                        (rectangle.getY() + rectangle.getHeight()/2) /HakuGoesHome.PIXELS_PER_METER);
-                body = world.createBody(bodyDef);
-                polygonShape.setAsBox((rectangle.getWidth()/2) /HakuGoesHome.PIXELS_PER_METER,
-                        (rectangle.getHeight()/2) /HakuGoesHome.PIXELS_PER_METER);
-                fixtureDef.shape = polygonShape;
-                body.createFixture(fixtureDef);
-            }
-        }
-
-        haku = new Haku(world);
+        haku = new Haku(world, orthographicCamera);
 
     }
 
@@ -149,6 +133,10 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        tiledMap.dispose();
+        renderer.dispose();
+        world.dispose();
+        box2DDebugRenderer.dispose();
+        frame.dispose();
     }
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.HakuGoesHome;
@@ -15,7 +17,7 @@ import com.mygdx.game.HakuGoesHome;
  * Created by p.szwed on 9/20/17.
  */
 
-public class Frame {
+public class Frame implements Disposable {
 
     public Stage stage;
     private Viewport viewport;
@@ -62,4 +64,8 @@ public class Frame {
         stage.addActor(table);
     }
 
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
 }

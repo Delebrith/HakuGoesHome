@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.HakuGoesHome;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
 /**
  * Created by p.szwed on 9/21/17.
@@ -19,11 +20,13 @@ public class Haku extends Sprite {
 
     public World world;
     public Body body;
+    private OrthographicCamera camera;
 
     private boolean trackable;
 
-    public Haku(World world){
+    public Haku(World world, OrthographicCamera camera){
         this.world = world;
+        this.camera = camera;
         defineHaku();
     }
 
@@ -45,15 +48,15 @@ public class Haku extends Sprite {
 
     public void runForwards() {
         trackable = true;
-        if (body.getLinearVelocity().x <= 1.5f) {
+        if (body.getLinearVelocity().x <= 1.2f) {
             body.applyLinearImpulse(new Vector2(0.06f, 0), body.getWorldCenter(), true);
         }
     }
 
     public void runBackwards() {
         trackable = false;
-        if (body.getPosition().x > 0.1f * HakuGoesHome.VIRTUAL_WIDTH / HakuGoesHome.PIXELS_PER_METER &&
-                body.getLinearVelocity().x >= -1.5f) {
+        if (camera.position.x - body.getPosition().x <= 0.32f * HakuGoesHome.VIRTUAL_WIDTH / HakuGoesHome.PIXELS_PER_METER &&
+                body.getLinearVelocity().x >= -1.2f) {
 
             body.applyLinearImpulse(new Vector2(-0.06f, 0), body.getWorldCenter(), true);
         }
@@ -65,8 +68,8 @@ public class Haku extends Sprite {
 
     public void track(OrthographicCamera camera){
         if (trackable) {
-            if (body.getPosition().x >= 0.4f * HakuGoesHome.VIRTUAL_WIDTH /HakuGoesHome.PIXELS_PER_METER) {
-                camera.position.set(body.getWorldCenter().x + 0.1f * HakuGoesHome.VIRTUAL_WIDTH / HakuGoesHome.PIXELS_PER_METER,
+            if (camera.position.x - body.getPosition().x <= (0.1f * HakuGoesHome.VIRTUAL_WIDTH) /HakuGoesHome.PIXELS_PER_METER) {
+                camera.position.set(body.getPosition().x + 0.1f * HakuGoesHome.VIRTUAL_WIDTH / HakuGoesHome.PIXELS_PER_METER,
                         camera.position.y, 0);
             }
         }
