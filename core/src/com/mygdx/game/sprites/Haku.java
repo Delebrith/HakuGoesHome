@@ -18,6 +18,9 @@ import com.sun.org.apache.xpath.internal.operations.Or;
 
 public class Haku extends Sprite {
 
+    public static final float MIN_POSITION_ON_THE_SCREEN =
+            0.455f * HakuGoesHome.VIRTUAL_WIDTH /HakuGoesHome.PIXELS_PER_METER;
+
     public World world;
     public Body body;
     private OrthographicCamera camera;
@@ -55,15 +58,11 @@ public class Haku extends Sprite {
 
     public void runBackwards() {
         trackable = false;
-        if (camera.position.x - body.getPosition().x <= 0.32f * HakuGoesHome.VIRTUAL_WIDTH / HakuGoesHome.PIXELS_PER_METER &&
-                body.getLinearVelocity().x >= -1.2f) {
-
-            body.applyLinearImpulse(new Vector2(-0.06f, 0), body.getWorldCenter(), true);
-        }
+        body.applyLinearImpulse(new Vector2(-0.06f, 0), body.getWorldCenter(), true);
     }
 
     public void jump() {
-        body.applyLinearImpulse(new Vector2(0, 4), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(0, 4), body.getWorldCenter(), true);
     }
 
     public void track(OrthographicCamera camera){
@@ -73,5 +72,9 @@ public class Haku extends Sprite {
                         camera.position.y, 0);
             }
         }
+    }
+
+    public boolean isTrackable() {
+        return trackable;
     }
 }

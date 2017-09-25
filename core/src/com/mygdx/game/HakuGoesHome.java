@@ -28,4 +28,8 @@ public class HakuGoesHome extends Game {
 	public void dispose () {
 		batch.dispose();
 	}
+
+	public static float scale(int sizeInPixels){
+		return (float) sizeInPixels/PIXELS_PER_METER;
+	}
 }

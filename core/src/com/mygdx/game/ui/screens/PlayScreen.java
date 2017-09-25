@@ -78,12 +78,21 @@ public class PlayScreen implements Screen {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             haku.runBackwards();
+            if (orthographicCamera.position.x - haku.body.getPosition().x
+                    > Haku.MIN_POSITION_ON_THE_SCREEN){
+                haku.body.setLinearVelocity(0, haku.body.getLinearVelocity().y);
+            }
         }
     }
 
 
     public void update(float dt){
         handleInput(dt);
+
+        if (!haku.isTrackable() && orthographicCamera.position.x - haku.body.getPosition().x
+                > Haku.MIN_POSITION_ON_THE_SCREEN){
+            haku.body.setLinearVelocity(0, haku.body.getLinearVelocity().y);
+        }
 
         world.step(1/60f, 6, 6);
         haku.track(orthographicCamera);
