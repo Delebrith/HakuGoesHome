@@ -62,7 +62,9 @@ public class Haku extends Sprite {
     }
 
     public void jump() {
+        if (body.getLinearVelocity().y == 0) {
             body.applyLinearImpulse(new Vector2(0, 4), body.getWorldCenter(), true);
+        }
     }
 
     public void track(OrthographicCamera camera){
