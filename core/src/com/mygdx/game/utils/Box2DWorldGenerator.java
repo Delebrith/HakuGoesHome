@@ -28,11 +28,11 @@ public class Box2DWorldGenerator {
             for (MapObject object : tiledMap.getLayers().get(i).getObjects().getByType(RectangleMapObject.class)) {
                 Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
                 bodyDef.type = BodyDef.BodyType.StaticBody;
-                bodyDef.position.set((rectangle.getX() + rectangle.getWidth()/2) / HakuGoesHome.PIXELS_PER_METER,
-                        (rectangle.getY() + rectangle.getHeight()/2) /HakuGoesHome.PIXELS_PER_METER);
+                bodyDef.position.set(HakuGoesHome.scale(rectangle.getX() + rectangle.getWidth()/2),
+                        HakuGoesHome.scale(rectangle.getY() + rectangle.getHeight()/2));
                 body = world.createBody(bodyDef);
-                polygonShape.setAsBox((rectangle.getWidth()/2) /HakuGoesHome.PIXELS_PER_METER,
-                        (rectangle.getHeight()/2) /HakuGoesHome.PIXELS_PER_METER);
+                polygonShape.setAsBox(HakuGoesHome.scale(rectangle.getWidth()/2),
+                        HakuGoesHome.scale(rectangle.getHeight()/2));
                 fixtureDef.shape = polygonShape;
                 body.createFixture(fixtureDef);
             }
