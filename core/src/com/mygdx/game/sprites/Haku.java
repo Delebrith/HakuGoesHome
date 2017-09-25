@@ -18,8 +18,8 @@ import com.sun.org.apache.xpath.internal.operations.Or;
 
 public class Haku extends Sprite {
 
-    public static final float MIN_POSITION_ON_THE_SCREEN =
-            0.455f * HakuGoesHome.VIRTUAL_WIDTH /HakuGoesHome.PIXELS_PER_METER;
+    public static final float MIN_POSITION_ON_THE_SCREEN = HakuGoesHome.scale(0.455f *
+                                                                HakuGoesHome.VIRTUAL_WIDTH);
 
     public World world;
     public Body body;
@@ -35,14 +35,14 @@ public class Haku extends Sprite {
 
     public void defineHaku() {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set((float) 32/ HakuGoesHome.PIXELS_PER_METER, (float) 100/HakuGoesHome.PIXELS_PER_METER);
+        bodyDef.position.set(HakuGoesHome.scale(32f), HakuGoesHome.scale(100f));
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius((float) 8/HakuGoesHome.PIXELS_PER_METER);
+        shape.setRadius(HakuGoesHome.scale(8f));
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);
 
@@ -69,8 +69,8 @@ public class Haku extends Sprite {
 
     public void track(OrthographicCamera camera){
         if (trackable) {
-            if (camera.position.x - body.getPosition().x <= (0.1f * HakuGoesHome.VIRTUAL_WIDTH) /HakuGoesHome.PIXELS_PER_METER) {
-                camera.position.set(body.getPosition().x + 0.1f * HakuGoesHome.VIRTUAL_WIDTH / HakuGoesHome.PIXELS_PER_METER,
+            if (camera.position.x - body.getPosition().x <= HakuGoesHome.scale(0.1f * HakuGoesHome.VIRTUAL_WIDTH)) {
+                camera.position.set(body.getPosition().x + HakuGoesHome.scale(0.1f * HakuGoesHome.VIRTUAL_WIDTH),
                         camera.position.y, 0);
             }
         }

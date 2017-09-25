@@ -48,18 +48,18 @@ public class PlayScreen implements Screen {
     public PlayScreen(HakuGoesHome game){
         this.game = game;
         orthographicCamera = new OrthographicCamera();
-        viewport = new FitViewport(HakuGoesHome.VIRTUAL_WIDTH /HakuGoesHome.PIXELS_PER_METER,
-                HakuGoesHome.VIRTUAL_HEIGHT /HakuGoesHome.PIXELS_PER_METER,
+        viewport = new FitViewport(HakuGoesHome.scale(HakuGoesHome.VIRTUAL_WIDTH),
+                HakuGoesHome.scale(HakuGoesHome.VIRTUAL_HEIGHT),
                 orthographicCamera);
         viewport.apply();
 
         mapLoader = new TmxMapLoader();
         tiledMap = mapLoader.load("level1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(tiledMap, (float)1/HakuGoesHome.PIXELS_PER_METER);
+        renderer = new OrthogonalTiledMapRenderer(tiledMap, HakuGoesHome.scale(1f));
         orthographicCamera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
         frame = new Frame(game.batch);
 
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, -9.8f), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.SHAPE_STATIC.set(0,1,0,1);
 

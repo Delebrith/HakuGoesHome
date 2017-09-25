@@ -30,6 +30,10 @@ public class HakuGoesHome extends Game {
 	}
 
 	public static float scale(int sizeInPixels){
-		return (float) sizeInPixels/PIXELS_PER_METER;
+		return sizeInPixels/PIXELS_PER_METER;
+	}
+
+	public static float scale(float sizeInPixels){
+		return sizeInPixels/PIXELS_PER_METER;
 	}
 }
