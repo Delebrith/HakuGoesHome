@@ -124,7 +124,8 @@ public class Haku extends Sprite {
     }
 
     public void die(){
-        body.applyLinearImpulse(new Vector2(0, 1.5f * JUMP_IMPULSE), body.getWorldCenter(), true);
+        dying = false;
+        body.applyLinearImpulse(new Vector2(0, 2.0f * JUMP_IMPULSE), body.getWorldCenter(), true);
     }
 
     public void track(OrthographicCamera camera){
@@ -200,12 +201,12 @@ public class Haku extends Sprite {
             return State.FLYING;
         } else if (!dead && !dying && body.getLinearVelocity().y > FLYING_VELOCITY) {
             return State.JUMPING;
+        } else if (dying || dead || body.getPosition().y <= 0.0f) {
+            if (!dead) dying = true;
+            return State.DEAD;
         } else if (!dead && !dying && body.getLinearVelocity().y < -FLYING_VELOCITY || (body.getLinearVelocity().y < 0
                 && previousState == State.RUNNING)) {
             return State.FALLING;
-        } else if (body.getPosition().y <= 0.0f) {
-            dying = true;
-            return State.DEAD;
         } else {
             return State.STANDING;
         }
