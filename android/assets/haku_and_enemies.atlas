@@ -123,14 +123,14 @@ red_fish
   orig: 32, 32
   offset: 0, 0
   index: -1
-running_haku
+running_haku_1
   rotate: false
   xy: 36, 138
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
-running_haku
+running_haku_2
   rotate: false
   xy: 70, 36
   size: 32, 32

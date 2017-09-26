@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -36,15 +38,21 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
 
+    private TextureAtlas textureAtlas;
+
     private Haku haku;
 
     public PlayScreen(HakuGoesHome game){
+        textureAtlas = new TextureAtlas("haku_and_enemies.atlas");
+
         this.game = game;
         orthographicCamera = new OrthographicCamera();
         viewport = new FitViewport(HakuGoesHome.scale(HakuGoesHome.VIRTUAL_WIDTH),
                 HakuGoesHome.scale(HakuGoesHome.VIRTUAL_HEIGHT),
                 orthographicCamera);
         viewport.apply();
+
+
 
         mapLoader = new TmxMapLoader();
         tiledMap = mapLoader.load("level1.tmx");
@@ -58,7 +66,7 @@ public class PlayScreen implements Screen {
 
         Box2DWorldGenerator.generate(world, tiledMap);
 
-        haku = new Haku(world, orthographicCamera);
+        haku = new Haku(world, this);
 
     }
 
@@ -71,10 +79,6 @@ public class PlayScreen implements Screen {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             haku.runBackwards();
-            if (orthographicCamera.position.x - haku.body.getPosition().x
-                    > Haku.MIN_POSITION_ON_THE_SCREEN){
-                haku.body.setLinearVelocity(0, haku.body.getLinearVelocity().y);
-            }
         }
     }
 
@@ -83,14 +87,18 @@ public class PlayScreen implements Screen {
         handleInput(dt);
 
         if (!haku.isTrackable() && orthographicCamera.position.x - haku.body.getPosition().x
-                > Haku.MIN_POSITION_ON_THE_SCREEN){
+                > Haku.MAX_DIFF_ON_THE_SCREEN){
             haku.body.setLinearVelocity(0, haku.body.getLinearVelocity().y);
+        }
+        if (haku.isDying()){
+            haku.die();
         }
 
         world.step(1/60f, 6, 6);
         haku.track(orthographicCamera);
 
         orthographicCamera.update();
+        haku.update(dt);
         renderer.setView(orthographicCamera);
     }
 
@@ -110,7 +118,13 @@ public class PlayScreen implements Screen {
 
         renderer.render();
         box2DDebugRenderer.render(world, orthographicCamera.combined);
+        game.batch.begin();
+        haku.draw(game.batch);
+        game.batch.end();
+
         frame.stage.draw();
+
+
     }
 
     @Override
@@ -140,5 +154,14 @@ public class PlayScreen implements Screen {
         world.dispose();
         box2DDebugRenderer.dispose();
         frame.dispose();
+        textureAtlas.dispose();
+    }
+
+    public TextureAtlas getTextureAtlas() {
+        return textureAtlas;
+    }
+
+    public OrthographicCamera getOrthographicCamera() {
+        return orthographicCamera;
     }
 }
